@@ -1,4 +1,4 @@
-# prezi2pdf
+# Prezi2PDF
  Simple script to convert Prezi presentation into a PDF file
 
 ## How to use
