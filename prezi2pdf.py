@@ -37,6 +37,10 @@ def download_video(id):
 def download_presentation(id):
     url = f"https://prezi.com/api/v2/storyboard/frames/{id}/"
     data = requests.get(url).json()
+    try:
+        os.mkdir(f"./presentations")
+    except FileExistsError:
+        pass
     content = []
     i = 0
     total = len(data['frames'])
@@ -45,8 +49,11 @@ def download_presentation(id):
         content.append(r.content)
         print(f"Downloading slide {i+1}/{total}")
         i += 1
-    with open(f'{id}.pdf', 'wb') as pdf:
+    with open(f'presentations/{id}.pdf', 'wb') as pdf:
         pdf.write(convert(content))
+    if args.download_json:
+        with open(f"./presentations/{id}.json", 'w') as outfile:
+            outfile.writelines(json.dumps(data, indent=4))
 
 id = re.findall('([0-z]{12})', args.url)[0]
 
@@ -57,7 +64,7 @@ elif "prezi.com/i/" in args.url:
     print("Prezi design not supported yet")
 
 elif "prezi.com/" in args.url:
-    print("Prezi URL not recognized. Check your url or open an issue.")
+    download_presentation(id)
 else:
     print("Please provide a valid prezi URL")
 
