@@ -1,5 +1,5 @@
 # Prezi2PDF
- Simple script to convert Prezi presentation into a PDF file
+ Simple script to convert Prezi presentation into a PDF file. Can also download Prezi Videos
 
 ## How to use
 
