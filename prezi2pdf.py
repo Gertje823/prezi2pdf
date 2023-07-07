@@ -55,7 +55,7 @@ def download_presentation(id):
         with open(f"./presentations/{id}.json", 'w') as outfile:
             outfile.writelines(json.dumps(data, indent=4))
 
-id = re.findall('([0-z]{12})', args.url)[0]
+id = re.findall('([0-z|-]{12})', args.url)[0]
 
 if "prezi.com/v/" in args.url:
     download_video(id)
