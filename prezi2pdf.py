@@ -33,7 +33,6 @@ def download_video(id):
             outfile.writelines(json.dumps(data, indent=4))
 
 
-
 def download_presentation(id):
     url = f"https://prezi.com/api/v2/storyboard/frames/{id}/"
     data = requests.get(url).json()
@@ -49,11 +48,18 @@ def download_presentation(id):
         content.append(r.content)
         print(f"Downloading slide {i+1}/{total}")
         i += 1
+    # Modify the img2pdf conversion options here
+    pdf_options = {
+        'resolution': 300,  # Increase the resolution (dpi) for better quality
+        'jpegopt': {'quality': 100},  # Set JPEG quality to maximum (100%)
+        # Add more options as needed
+    }
     with open(f'presentations/{id}.pdf', 'wb') as pdf:
-        pdf.write(convert(content))
+        pdf.write(convert(content, **pdf_options))
     if args.download_json:
         with open(f"./presentations/{id}.json", 'w') as outfile:
             outfile.writelines(json.dumps(data, indent=4))
+
 
 id = re.findall('([0-z|-]{12})', args.url)[0]
 
@@ -67,6 +73,3 @@ elif "prezi.com/" in args.url:
     download_presentation(id)
 else:
     print("Please provide a valid prezi URL")
-
-
-
