@@ -35,7 +35,7 @@ def download_video(id):
 
 
 def download_presentation(id):
-    url = f"https://prezi.com/api/v2/storyboard/frames/{id}/"
+    url = f"https://prezi.com/api/v2/storyboard/{id}/"
     data = requests.get(url).json()
     try:
         os.mkdir(f"./presentations")
@@ -43,9 +43,9 @@ def download_presentation(id):
         pass
     content = []
     i = 0
-    total = len(data['frames'])
-    for frame in data['frames']:
-        r = requests.get(frame['images'][0]['urls']['png'])
+    total = len(data['steps'])
+    for frame in data['steps']:
+        r = requests.get(frame['images'][0]['url'])
         content.append(r.content)
         print(f"Downloading slide {i+1}/{total}")
         i += 1
