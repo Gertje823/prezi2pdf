@@ -36,7 +36,8 @@ def download_video(id):
 
 def download_presentation(id):
     url = f"https://prezi.com/api/v2/storyboard/{id}/"
-    data = requests.get(url).json()
+    print("Requesting data from API, please wait up to 60 seconds...")
+    data = requests.get(url, timeout=60).json()
     try:
         os.mkdir(f"./presentations")
     except FileExistsError:
